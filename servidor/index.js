@@ -37,8 +37,12 @@ app.get('/', async function(req, res){
 })
 
 app.post('/logar', (req, res) => {
-  res.send("Login On")
-})
+  if (req.body.usuario == 'kakah' && req.body.senha == '123') {
+    res.send("hello!");
+  }else {
+  res.send("error!")
+} 
+});
 
 app.post('/deslogar', function(req, res) {
   
