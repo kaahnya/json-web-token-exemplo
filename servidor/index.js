@@ -28,17 +28,33 @@ app.use(
   }).unless({ path: ["/autenticar", "/logar", "/deslogar", "/usuarios/cadastrar"] })
 );
 
-app.get('/autenticar', async function(req, res){
-  res.render('autenticar');
+app.get('/usuarios/cadastrar', async function(req, res){
+  res.render('usuarios/cadastrar');
 })
 
-app.get('/usuarios/cadastrar', async function(req, res){
-  res.render('cadastrar');
-})
+app.post('/usuarios/cadastrar', async function(req, res){
+  if(req.body.senha === req.body.senhaagain)
+  res.json({mensagem: "Cadastro realizado!"})
+else(
+  res.json({mensagem: "Senhas não são iguais!"})
+ )
+});
+
+app.post('/usuarios/cadastrar', async function(req, res){
+  if(req.body.senha === req.body.senhaagain)
+  res.json({mensagem: "Cadastro realizado!"})
+else(
+  res.json({mensagem: "Senhas não são iguais!"})
+ )
+});
+
+app.get('/autenticar', async function(req, res){
+  res.render('autenticar');
+});
 
 app.get('/', async function(req, res){
   res.render("home")
-})
+});
 
 app.post('/logar', (req, res) => {
   if (req.body.usuario == 'kakah' && req.body.senha == '123') {
@@ -57,8 +73,24 @@ app.post('/logar', (req, res) => {
 });
 
 app.post('/deslogar', function(req, res) {
-  res.cookie('token', null, {httpOnly:true});
-  res.json({deslogado:true})
+  res.cookie('token', null, {httpOnly: true});
+  res.json({
+    deslogado:true
+  })
+})
+app.post('/usuarios/cadastrar', async function(req, res){
+  try {
+    if(req.body.senha === req.body.senhaagain)
+      await usuario.create(req.body);
+      res.redirect('/usuarios/listar')
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Ocorreu um erro ao criar o usuário.' });
+  }
+})
+
+app.get('/usuarios/listar', async function(req, res){
+  res.json('usuarios')
 })
 
 app.listen(3000, function() {
