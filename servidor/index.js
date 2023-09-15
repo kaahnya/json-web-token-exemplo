@@ -3,6 +3,7 @@ require("dotenv-safe").config();
 const jwt = require('jsonwebtoken');
 var { expressjwt: expressJWT } = require("express-jwt");
 const cors = require('cors');
+const crypto = require('./crypto')
 
 var cookieParser = require('cookie-parser')
 
@@ -76,9 +77,14 @@ app.post('/deslogar', function(req, res) {
 })
 app.post('/usuarios/cadastrar', async function(req, res){
   try {
-    if(req.body.senha === req.body.senhaagain)
-      await usuario.create(req.body);
+    const crypto = {
+      nome: req.body.nome,
+      senha: crypto.encrypt(req.body.senha)
+    }
+    if(req.body.senha === req.body.senhaagain){
+      const create = await usuario.create(crypto)
       res.redirect('/usuarios/listar')
+    }
   } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Ocorreu um erro ao criar o usuário.' });
@@ -87,8 +93,8 @@ app.post('/usuarios/cadastrar', async function(req, res){
 
 app.get('/usuarios/listar', async function(req, res){
   try {
-   var usuarios = await usuario.findAll();
-   res.render('home', { usuarios });
+   var create = await usuario.findAll();
+   res.render('home', { create });
  } catch (err) {
    console.error(err);
    res.status(500).json({ message: 'Ocorreu um erro ao buscar os usuário.' });
@@ -98,3 +104,4 @@ app.get('/usuarios/listar', async function(req, res){
 app.listen(3000, function() {
   console.log('App de Exemplo escutando na porta 3000!')
 });
+
