@@ -7,12 +7,19 @@
   <title>Document</title>
 </head>
 <body>
-  <% create.forEach((usuario) => { %>
-    <%= usuario.nome %>
-    <%= usuario.senha %>
+  <style>
+    .usu{
+      text-align: center;
+    }
+  </style>
+  <div class="usu">
+  <% criado.forEach((usuario) => { %>
+   <p><%= usuario.nome %>
+    <%= usuario.senha %></p><br/><hr/>
 <% }) %>
   <form action="/deslogar" method="post">
     <input type="submit" value="Deslogar">
   </form>
+</div>
 </body>
 </html>
