@@ -68,20 +68,21 @@ app.get('/usuarios/listar', async function(req, res){
 }
 })
 
-app.post('/logar', async (req, res) => {
-  if(req.body.usuario == 'kakah' && req.body.senha == '123') {
-    const id = 1;
+app.post('/logar', async function(req, res) {
+  const login = await usuario.findOne({ where: { nome: req.body.nome, senha: crypto.encrypt(req.body.senha) } })
+  if(login){
+    const id = login.id;
     const token = jwt.sign({ id }, process.env.SECRET, {
-      expiresIn: 300
+      expiresIn: 3000
     })
-    
     res.cookie('token', token, {httpOnly:true});
     return res.json({
-      usuario: req.body.usuario,
+      nome: req.body.nome,
+      senha: crypto.encrypt(req.body.senha),
       token: token
     })
   }
-    res.status(500).json({mensagem: "Login inválido!"})
+    res.status(500).json({mensagem: "login invalido!"})
 })
 
 app.post('/deslogar', function(req, res) {
