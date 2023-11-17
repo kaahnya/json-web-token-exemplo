@@ -5,6 +5,18 @@ var { expressjwt: expressJWT } = require("express-jwt");
 const cors = require('cors');
 const crypto = require('./crypto');
 
+const corsOption = {
+  //cliente q fara o acesso
+  origin: "http://localhost:3000",
+  //metodo q o cliente pode executar
+  methods: "GET,PUT,POST,DELETE",
+
+  allowedHeaders: "Content-Type,Authorization",
+  credentials: true
+}
+
+app.use(cors(corsOption))
+
 var cookieParser = require('cookie-parser')
 
 const express = require('express');
