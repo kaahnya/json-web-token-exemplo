@@ -8,8 +8,8 @@ import './css.css';
 
 export default function Login() {
   const [user, setUser] = useState({
-    email: '',
-    password: '',
+    nome: '',
+    senha: '',
   });
   const { push, refresh } = useRouter();
 
@@ -31,14 +31,16 @@ export default function Login() {
       <h1>Login</h1>
       <form onSubmit={handlerLogin}>
         <input
-          placeholder='E-mail'
-          type="email"
-          onChange={(e) => { setUser({ ...user, email: e.target.value }) }}>
+          placeholder="E-mail"
+          name="nome"
+          type="text"
+          onChange={(e) => { setUser({ ...user, nome: e.target.value }) }}>
         </input>
         <input
-          placeholder='Senha'
-          type='password'
-          onChange={(e) => { setUser({ ...user, password: e.target.value }) }}>
+          placeholder="Senha"
+          type="password"
+          name="senha"
+          onChange={(e) => { setUser({ ...user, senha: e.target.value }) }}>
         </input>
         <button className="botua">ENTRAR</button>
       </form>

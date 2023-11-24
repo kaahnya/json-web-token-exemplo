@@ -77,8 +77,8 @@ app.get('/usuarios/listar', async function(req, res){
 }
 })
 
-app.post('/logar', async function(req, res) {
-  const login = await usuario.findOne({ where: { nome: req.body.nome, senha: crypto.encrypt(req.body.senha) } })
+app.post('/user/authenticated', async function(req, res) {
+  const login = await usuario.findOne({ where: { nome: req.body.name, senha: crypto.encrypt(req.body.password) } })
   if(login){
     const id = login.id;
     const token = jwt.sign({ id }, process.env.SECRET, {
@@ -88,11 +88,7 @@ app.post('/logar', async function(req, res) {
       nome: login.nome,
       token: token
     });
-    //return res.json({
-     // nome: req.body.nome,
-     // senha: crypto.encrypt(req.body.senha),
-     // token: token/
-   // })
+    return res.json(login)
   }
     res.status(500).json({mensagem: "login invalido!"})
 })
