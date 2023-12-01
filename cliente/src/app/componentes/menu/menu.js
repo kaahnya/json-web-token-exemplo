@@ -7,7 +7,6 @@ export default function Menu(){
                 <li><h1 className='home'>HOME</h1></li>
                 <li><a href="../../pages/dashboard">USERS</a></li>
                 <li><a href="./register">REGISTER</a></li>
-                <li><a href="../pages/alter">ALTER</a></li>
             </ul>
         </div>
     )
