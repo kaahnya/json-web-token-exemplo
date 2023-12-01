@@ -9,7 +9,7 @@ import './css.css'
 
 export default function Register() {
   const [registro, setRegistro] = useState({
-    name: '', email: '', password: ''
+    nome: '', senha: '', senhaagain: ''
   });
 
   const { push, refresh } = useRouter();
@@ -36,14 +36,17 @@ export default function Register() {
       <h1>REGISTER</h1>
       <form onSubmit={handlerFormSubmit}>
       <input
+          name="nome"
           placeholder='Nome'
-          type="name" onChange={(e) => { setRegistro({ ...registro, name: e.target.value }) }}/>
+          type="name" onChange={(e) => { setRegistro({ ...registro, nome: e.target.value }) }}/>
         <input
-          placeholder='E-mail'
-          type="email" onChange={(e) => { setRegistro({ ...registro, email: e.target.value }) }}/>
+          placeholder="Senha"
+          name="senha"
+          type="password" onChange={(e) => { setRegistro({ ...registro, senha: e.target.value }) }}/>
         <input
+          name="senhaagain"
           placeholder='Senha'
-          type='password' onChange={(e) => { setRegistro({ ...registro, password: e.target.value }) }}/>
+          type='password' onChange={(e) => { setRegistro({ ...registro, senhaagain: e.target.value }) }}/>
         <button className="butao">CADASTRAR</button>
       </form>
       <ToastContainer/>

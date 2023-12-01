@@ -35,7 +35,7 @@ app.use(
     secret: process.env.SECRET,
     algorithms: ["HS256"],
     getToken: req => req.cookies.token
-  }).unless({ path: ["/autenticar", "/logar", "/deslogar", "/usuarios/cadastrar"] })
+  }).unless({ path: ["/autenticar", "/user/authenticated", "/deslogar", "/usuarios/cadastrar"] })
 );
 
 app.get('/autenticar', async function(req, res){
@@ -78,17 +78,16 @@ app.get('/usuarios/listar', async function(req, res){
 })
 
 app.post('/user/authenticated', async function(req, res) {
-  const login = await usuario.findOne({ where: { nome: req.body.name, senha: crypto.encrypt(req.body.password) } })
+  const login = await usuario.findOne({ where: { nome: req.body.nome, senha: crypto.encrypt(req.body.senha) } })
   if(login){
     const id = login.id;
     const token = jwt.sign({ id }, process.env.SECRET, {
       expiresIn: 3000
     })
-    res.cookie('token', token, {httpOnly:true}).json({
+    return res.cookie('token', token, {httpOnly:true}).json({
       nome: login.nome,
       token: token
     });
-    return res.json(login)
   }
     res.status(500).json({mensagem: "login invalido!"})
 })
